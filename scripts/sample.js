@@ -14,6 +14,8 @@ const setModelViewer = () => {
     modelViewer.touchAction = "pan-y";
     modelViewer.generateSchema = true;
     modelViewer.shadowIntensity = 1;
+    modelViewer.style.width = "100%";
+    modelViewer.style.height = "100%";
     
     const modelViewerContainer = document.getElementById('ohouse-model-viewer');
     modelViewerContainer.style.width = "1000px";
