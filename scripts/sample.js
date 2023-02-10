@@ -14,7 +14,11 @@ const setModelViewer = () => {
     modelViewer.touchAction = "pan-y";
     modelViewer.generateSchema = true;
     modelViewer.shadowIntensity = 1;
-    document.getElementById('ohouse-model-viewer').appendChild(modelViewer);
+    
+    const modelViewerContainer = document.getElementById('ohouse-model-viewer');
+    modelViewerContainer.style.width = "1000px";
+    modelViewerContainer.style.height = "500px";
+    modelViewerContainer.appendChild(modelViewer);
 };
 
 // when the page is loaded, setModelViewer() is called.
