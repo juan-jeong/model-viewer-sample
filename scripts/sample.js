@@ -16,12 +16,34 @@ const setModelViewer = () => {
     modelViewer.shadowIntensity = 1;
     modelViewer.style.width = "100%";
     modelViewer.style.height = "100%";
-    
+
     const modelViewerContainer = document.getElementById('ohouse-model-viewer');
     modelViewerContainer.style.width = "1000px";
     modelViewerContainer.style.height = "500px";
     modelViewerContainer.appendChild(modelViewer);
+
+    modelViewer.addEventListener('camera-change', (event) => {
+        webkit.messageHandlers.onModelViewerCameraChange.postMessage('camera-change-sample');
+    });
+    // modelViewer.addEventListener('load', () => {
+    //     autoAmination(modelViewer);
+    // });
 };
+
+
+const autoAmination = (modelViewer) => {
+    const orbitCycle = [
+        '45deg 55deg 4m',
+        '-60deg 110deg 2m',
+        modelViewer.cameraOrbit
+    ];
+
+    setInterval(() => {
+        const currentOrbitIndex = orbitCycle.indexOf(modelViewer.cameraOrbit);
+        modelViewer.cameraOrbit =
+            orbitCycle[(currentOrbitIndex + 1) % orbitCycle.length];
+    }, 3000);
+}
 
 // when the page is loaded, setModelViewer() is called.
 window.onload = setModelViewer;
