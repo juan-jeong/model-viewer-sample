@@ -23,7 +23,9 @@ const setModelViewer = () => {
     modelViewerContainer.appendChild(modelViewer);
 
     modelViewer.addEventListener('camera-change', (event) => {
-        webkit.messageHandlers.onModelViewerCameraChange.postMessage('camera-change-sample');
+        if (webkit && webkit.messageHandlers && webkit.messageHandlers.onModelViewerCameraChange) {
+            webkit.messageHandlers.onModelViewerCameraChange.postMessage('camera-change-sample');
+        }
     });
     // modelViewer.addEventListener('load', () => {
     //     autoAmination(modelViewer);
@@ -37,7 +39,8 @@ const autoAmination = (modelViewer) => {
         '-60deg 110deg 2m',
         modelViewer.cameraOrbit
     ];
-
+    
+    
     setInterval(() => {
         const currentOrbitIndex = orbitCycle.indexOf(modelViewer.cameraOrbit);
         modelViewer.cameraOrbit =
