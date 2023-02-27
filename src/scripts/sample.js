@@ -22,15 +22,29 @@ const setModelViewer = () => {
     modelViewerContainer.style.height = "500px";
     modelViewerContainer.appendChild(modelViewer);
 
-    modelViewer.addEventListener('camera-change', (event) => {
-        if (webkit && webkit.messageHandlers && webkit.messageHandlers.onModelViewerCameraChange) {
-            webkit.messageHandlers.onModelViewerCameraChange.postMessage('camera-change-sample');
-        }
-    });
+    SetTouchEventHandler(modelViewerContainer);
+    SetCameraChangeEventHandler(modelViewer);
+    
     // modelViewer.addEventListener('load', () => {
     //     autoAmination(modelViewer);
     // });
 };
+
+const SetCameraChangeEventHandler = (container) => {
+    container.addEventListener('camera-change', (event) => {
+        if (webkit && webkit.messageHandlers && webkit.messageHandlers.onModelViewerCameraChange) {
+            webkit.messageHandlers.onModelViewerCameraChange.postMessage('camera-change-sample');
+        }
+    });
+}
+
+const SetTouchEventHandler = (container) => {
+    container.addEventListener('touchstart', (event) => {
+        if (webkit && webkit.messageHandlers && webkit.messageHandlers.onModelViewerTouchStart) {
+            webkit.messageHandlers.onModelViewerTouchStart.postMessage('touchstart-sample');
+        }
+    });
+}
 
 
 const autoAmination = (modelViewer) => {
