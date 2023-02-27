@@ -22,13 +22,33 @@ const setModelViewer = () => {
     modelViewerContainer.style.height = "500px";
     modelViewerContainer.appendChild(modelViewer);
 
-    modelViewer.addEventListener('camera-change', (event) => {
-        webkit.messageHandlers.onModelViewerCameraChange.postMessage('camera-change-sample');
-    });
+    SetTouchEventHandler(modelViewerContainer);
+    SetCameraChangeEventHandler(modelViewer);
+
     // modelViewer.addEventListener('load', () => {
     //     autoAmination(modelViewer);
     // });
 };
+
+const SetCameraChangeEventHandler = (container) => {
+    container.addEventListener('camera-change', (event) => {
+        // if (webkit && webkit.messageHandlers && webkit.messageHandlers.onModelViewerCameraChange) {
+        //     webkit.messageHandlers.onModelViewerCameraChange.postMessage('camera-change-sample');
+        // }
+    });
+}
+
+var firstTouch = true;
+const SetTouchEventHandler = (container) => {
+    container.addEventListener('touchstart', (event) => {
+        if (firstTouch) {
+            if (webkit && webkit.messageHandlers && webkit.messageHandlers.onModelViewerTouchStart) {
+                webkit.messageHandlers.onModelViewerTouchStart.postMessage('touchstart-sample');
+            }
+            firstTouch = false;
+        }
+    });
+}
 
 
 const autoAmination = (modelViewer) => {
@@ -37,6 +57,7 @@ const autoAmination = (modelViewer) => {
         '-60deg 110deg 2m',
         modelViewer.cameraOrbit
     ];
+
 
     setInterval(() => {
         const currentOrbitIndex = orbitCycle.indexOf(modelViewer.cameraOrbit);
