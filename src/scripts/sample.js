@@ -38,10 +38,12 @@ const SetCameraChangeEventHandler = (container) => {
     });
 }
 
+var firstTouch = true;
 const SetTouchEventHandler = (container) => {
     container.addEventListener('touchstart', (event) => {
-        if (webkit && webkit.messageHandlers && webkit.messageHandlers.onModelViewerTouchStart) {
+        if (firstTouch && webkit && webkit.messageHandlers && webkit.messageHandlers.onModelViewerTouchStart) {
             webkit.messageHandlers.onModelViewerTouchStart.postMessage('touchstart-sample');
+            firstTouch = false;
         }
     });
 }
