@@ -25,6 +25,8 @@ const setModelViewer = () => {
     SetTouchEventHandler(modelViewerContainer);
     SetCameraChangeEventHandler(modelViewer);
 
+    setPromptAnimation(modelViewer);
+
     // modelViewer.addEventListener('load', () => {
     //     autoAmination(modelViewer);
     // });
@@ -50,6 +52,58 @@ const SetTouchEventHandler = (container) => {
     });
 }
 
+const setPromptAnimation = (modelViewer) => {
+    modelViewer.interactionPrompt = 'none';
+
+    const finger0Div = document.createElement('div');
+    finger0Div.classList.add('dot');
+    finger0Div.setAttribute('slot', 'finger0');
+    modelViewer.appendChild(finger0Div);
+
+    const PROMT_MS = 4000;
+    const REPEAT_MS = 6000;
+
+    const finger0 = {
+        x: {
+            initialValue: 0.5,
+            keyframes: [
+                { frames: 1, value: 0.45 },
+                { frames: 1, value: 0.6 },
+                { frames: 1, value: 0.4 },
+                { frames: 1, value: 0.55 },
+                { frames: 1, value: 0.5 },
+            ]
+        },
+        y: {
+            initialValue: 0.5,
+            keyframes: [
+                { frames: 1, value: 0.5 },
+            ]
+        }
+    };
+
+    let hasInteracted = false;
+
+    const prompt = () => {
+        if (!hasInteracted) {
+            modelViewer.interact(PROMT_MS, finger0);
+            setTimeout(prompt, REPEAT_MS);
+        }
+    };
+
+    modelViewer.addEventListener('poster-dismissed', () => {
+        prompt();
+    }, { once: true });
+
+    const interacted = (event) => {
+        if (event.detail.source === 'user-interaction') {
+            hasInteracted = true;
+            modelViewer.removeEventListener('camera-change', interacted);
+        }
+    };
+
+    modelViewer.addEventListener('camera-change', interacted);
+}
 
 const autoAmination = (modelViewer) => {
     const orbitCycle = [
