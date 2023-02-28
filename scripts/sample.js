@@ -26,10 +26,6 @@ const setModelViewer = () => {
     SetCameraChangeEventHandler(modelViewer);
 
     setPromptAnimation(modelViewer);
-
-    // modelViewer.addEventListener('load', () => {
-    //     autoAmination(modelViewer);
-    // });
 };
 
 const SetCameraChangeEventHandler = (container) => {
