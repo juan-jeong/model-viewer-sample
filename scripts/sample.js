@@ -18,8 +18,7 @@ const setModelViewer = () => {
     modelViewer.style.height = "100%";
 
     const modelViewerContainer = document.getElementById('ohouse-model-viewer');
-    modelViewerContainer.style.width = "1000px";
-    modelViewerContainer.style.height = "500px";
+    modelViewerContainer.style.height = "300px";
     modelViewerContainer.appendChild(modelViewer);
 
     SetTouchEventHandler(modelViewerContainer);
@@ -50,14 +49,15 @@ const SetTouchEventHandler = (container) => {
 
 const setPromptAnimation = (modelViewer) => {
     modelViewer.interactionPrompt = 'none';
+    modelViewer.orbitSensitivity = 0.7;
 
     const finger0Div = document.createElement('div');
     finger0Div.classList.add('dot');
     finger0Div.setAttribute('slot', 'finger0');
     modelViewer.appendChild(finger0Div);
 
-    const PROMT_MS = 4000;
-    const REPEAT_MS = 6000;
+    const PROMT_MS = parseInt(location.search.split('prompt=')[1]) || 4500;
+    const REPEAT_MS = PROMT_MS + 1000;
 
     const finger0 = {
         x: {
