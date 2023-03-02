@@ -49,7 +49,7 @@ const SetTouchEventHandler = (container) => {
 
 const setPromptAnimation = (modelViewer) => {
     modelViewer.interactionPrompt = 'none';
-    modelViewer.orbitSensitivity = 0.7;
+    modelViewer.orbitSensitivity = parseFloat(location.search.split('sensitivity=')[1]) || 0.7;
 
     const finger0Div = document.createElement('div');
     finger0Div.classList.add('dot');
