@@ -88,6 +88,43 @@ const deriveCameraEvents = (original, deriveds) => {
     });
 }
 
+// hdri를 변경할 수 있는 드롭다운을 생성합니다.
+const createHdriDropdown = (modelViewers) => {
+    const hdriDropdown = document.createElement('select');
+    hdriDropdown.style.position = 'fixed';
+    hdriDropdown.style.top = '0';
+    hdriDropdown.style.right = '0';
+    hdriDropdown.style.zIndex = '100';
+    hdriDropdown.style.padding = '4px';
+    hdriDropdown.style.margin = '4px';
+    hdriDropdown.style.border = '1px solid #ccc';
+    hdriDropdown.style.borderRadius = '4px';
+    hdriDropdown.style.boxShadow = '0 0 4px 0 rgba(0, 0, 0, 0.2)';
+
+    const hdriList = [
+        { name: 'Neutral', path: '../hdri/neutral.hdr' },
+        { name: 'Apls', path: '../hdri/alps-field.hdr' },
+        { name: 'Studio', path: '../hdri/Studio.hdr' },
+        { name: 'Pure sky', path: '../hdri/pure-sky.hdr' },
+    ];
+
+    for (const hdri of hdriList) {
+        const option = document.createElement('option');
+        option.value = hdri.path;
+        option.innerText = hdri.name;
+        hdriDropdown.appendChild(option);
+    }
+
+    hdriDropdown.addEventListener('change', (event) => {
+        const path = event.target.value;
+        for (const model of modelViewers) {
+            model.skyboxImage = path;
+        }
+    });
+
+    return hdriDropdown;
+}
+
 const createModelViewer = (column) => {
     const viewer = document.getElementById('ohouse-model-viewer');
     // create hdri dropdown
@@ -99,6 +136,7 @@ const createModelViewer = (column) => {
         deriveCameraEvents(modelViewers[0], modelViewers.slice(1));
         allModelViewers.push(...modelViewers);
     }
+    document.body.appendChild(createHdriDropdown(allModelViewers));
 }
 
 
