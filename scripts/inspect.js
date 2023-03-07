@@ -47,7 +47,7 @@ const createModelViewerList = (length) => {
         model.cameraControls = false;
         model.shadowIntensity = 1;
         model.interactionPrompt = 'none';
-        model.minFieldOfView = '0deg';
+        //model.minFieldOfView = '0deg';
 
         model.ondrop = (event) => {
             loadDroppedModel(event);
